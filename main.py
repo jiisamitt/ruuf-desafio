@@ -1,25 +1,30 @@
 
 # Function to calculate the number of pannels that fit in the roof
 def pannels_fitting(pannel_x, pannel_y, roof_x, roof_y):
-  # X will be the bigger dimension of the pannel and roof
-  
-  # Get the bigger dimension of the pannel
-  p_x = max(pannel_x, pannel_y)
-  p_y = min(pannel_x, pannel_y)
-  
-  # Get the bigger dimension of the roof
-  r_x = max(roof_x, roof_y)
-  r_y = min(roof_x, roof_y)
   
   # Calculate the number of pannels that fit in the roof
-  r_x_with_p_x = int((r_x/p_x))*int((r_y/p_y))
+  
+  # Amount of pannels that fit in the roof, without considering the "remainder" of the roof
+  r_x_with_p_x = int((roof_x/pannel_x))*int((roof_y/pannel_y))
   
   # If the pannel from the small side fits in the rest of the roof
   rest = 0
-  if r_x%p_x >= p_y:
-    rest = (int((r_x%p_x)/(p_y)))*int(r_y/p_x)
+  if roof_x%pannel_x >= pannel_y:
+    rest = (int((roof_x%pannel_x)/(pannel_y)))*int(roof_y/pannel_x)
   
-  return r_x_with_p_x + rest
+  first_option =  r_x_with_p_x + rest
+  
+  # Now we do the same, but with the other side of the roof
+  r_y_with_p_x = int((roof_x/pannel_y))*int((roof_y/pannel_x))
+  
+  # If the pannel from the small side fits in the rest of the roof
+  rest = 0
+  if roof_x%pannel_y >= pannel_x:
+    rest = (int((roof_x%pannel_y)/(pannel_x)))*int(roof_y/pannel_y)
+  
+  second_option = r_y_with_p_x + rest
+  
+  return max(first_option, second_option)
 
   
 
